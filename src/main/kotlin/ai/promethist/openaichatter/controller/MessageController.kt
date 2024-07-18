@@ -12,16 +12,16 @@ class MessageController(private val aiManager: AIManager) {
     @GetMapping("/chat")
     fun index(
         @RequestParam("name") name: String = "",
-        @RequestParam("question") question: String = "",
+        @RequestParam("text") text: String = "",
         @RequestParam("sessionId") sessionId: Long? = null
     ): String {
         if (name.isEmpty() || name.isBlank()) {
-            return "`question` was not set"
+            return "`name` was not set"
         }
-        if (question.isEmpty() || question.isBlank()) {
+        if (text.isEmpty() || text.isBlank()) {
             return "`text` was not set"
         }
 
-        return aiManager.getResponse(Query(name, question, sessionId))
+        return aiManager.getResponse(Query(name, text, sessionId))
     }
 }
