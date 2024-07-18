@@ -1,7 +1,7 @@
 package ai.promethist.openaichatter.controller
 
 import ai.promethist.openaichatter.service.AIManager
-import ai.promethist.openaichatter.service.Question
+import ai.promethist.openaichatter.model.Question
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam

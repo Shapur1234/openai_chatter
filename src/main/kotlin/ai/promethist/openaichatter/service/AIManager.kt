@@ -1,5 +1,7 @@
 package ai.promethist.openaichatter.service
 
+import ai.promethist.openaichatter.model.Question
+
 import org.springframework.stereotype.Service
 import dev.langchain4j.model.chat.ChatLanguageModel
 import dev.langchain4j.model.openai.OpenAiChatModel
