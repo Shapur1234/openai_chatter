@@ -1,1 +1,1 @@
-rootProject.name = "openai_chatter"
+rootProject.name = "openaichatter"
