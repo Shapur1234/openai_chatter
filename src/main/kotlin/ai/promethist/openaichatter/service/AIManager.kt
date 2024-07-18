@@ -1,12 +1,14 @@
 package ai.promethist.openaichatter.service
 
 import ai.promethist.openaichatter.model.Query
+import dev.langchain4j.data.message.ChatMessageType
 
 import org.springframework.stereotype.Service
 import dev.langchain4j.model.chat.ChatLanguageModel
 import dev.langchain4j.model.openai.OpenAiChatModel
 import dev.langchain4j.model.openai.OpenAiChatModelName.GPT_3_5_TURBO
 import dev.langchain4j.data.message.UserMessage.userMessage
+import dev.langchain4j.memory.ChatMemory
 
 @Service
 class AIManager(private val chatDatabase: ChatDatabase) {
@@ -33,9 +35,23 @@ class AIManager(private val chatDatabase: ChatDatabase) {
             val answer = model.generate(memory.messages()).content();
             memory.add(answer)
 
-            return answer.text()
+            return memory.conversationLog()
         }
     }
+
+    fun (ChatMemory).conversationLog(): String =
+        messages().joinToString(transform = { message ->
+            "${
+                when (message.type()) {
+                    ChatMessageType.AI -> "AI"
+                    ChatMessageType.USER -> "USER"
+                    ChatMessageType.SYSTEM -> "SYSTEM"
+                    ChatMessageType.TOOL_EXECUTION_RESULT -> "TOOL"
+                    null -> "NULL_MESSAGE_TYPE"
+                }
+            }: ${message.text()}"
+        }, separator = "\n")
+
 
     fun initialMessage(query: Query): String = "Greet the user ${query.name} and answer their query: \"${query.text}\""
 }
