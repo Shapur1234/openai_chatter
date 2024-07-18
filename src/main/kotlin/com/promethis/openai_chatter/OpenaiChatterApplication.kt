@@ -5,12 +5,14 @@ import org.springframework.boot.runApplication
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.stereotype.Service
 import dev.langchain4j.model.chat.ChatLanguageModel
 import dev.langchain4j.model.openai.OpenAiChatModel
 import dev.langchain4j.model.openai.OpenAiChatModelName.GPT_3_5_TURBO
 
 data class Question(val name: String, val question: String)
 
+@Service
 class AIManager {
     //    private val apiKey = (System.getenv("OPENAI_API_KEY")
     //        ?: "").ifEmpty { throw IllegalArgumentException("env var OPENAI_API_KEY is not set") }
@@ -21,13 +23,12 @@ class AIManager {
         .maxTokens(50)
         .build();
 
-    fun get_responce(question: Question): String =
+    fun getResponse(question: Question): String =
         model.generate("Greet the user ${question.name} and answer his question: \"${question.question}\"")
 }
 
 @RestController
-class MessageController {
-
+class MessageController(val aiManager: AIManager) {
     @GetMapping("/chat")
     fun index(@RequestParam("name") name: String = "", @RequestParam("question") question: String = ""): String {
         if (name.isEmpty() || name.isBlank()) {
@@ -36,9 +37,8 @@ class MessageController {
         if (question.isEmpty() || question.isBlank()) {
             return "`text` was not set"
         }
-        val aiManager = AIManager()
 
-        return aiManager.get_responce(Question(name, question))
+        return aiManager.getResponse(Question(name, question))
     }
 }
 
@@ -46,9 +46,5 @@ class MessageController {
 class OpenaiChatterApplication
 
 fun main(args: Array<String>) {
-//    val apiKey = (System.getenv("OPENAI_API_KEY")
-//        ?: "").ifEmpty { throw IllegalArgumentException("env var OPENAI_API_KEY is not set") }
-    val apiKey = "demo"
-
     runApplication<OpenaiChatterApplication>(*args)
 }
