@@ -1,7 +1,7 @@
 package ai.promethist.openaichatter.controller
 
 import ai.promethist.openaichatter.service.AIManager
-import ai.promethist.openaichatter.model.Question
+import ai.promethist.openaichatter.model.Query
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -10,7 +10,11 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class MessageController(private val aiManager: AIManager) {
     @GetMapping("/chat")
-    fun index(@RequestParam("name") name: String = "", @RequestParam("question") question: String = ""): String {
+    fun index(
+        @RequestParam("name") name: String = "",
+        @RequestParam("question") question: String = "",
+        @RequestParam("sessionId") sessionId: Long? = null
+    ): String {
         if (name.isEmpty() || name.isBlank()) {
             return "`question` was not set"
         }
@@ -18,6 +22,6 @@ class MessageController(private val aiManager: AIManager) {
             return "`text` was not set"
         }
 
-        return aiManager.getResponse(Question(name, question))
+        return aiManager.getResponse(Query(name, question, sessionId))
     }
 }
