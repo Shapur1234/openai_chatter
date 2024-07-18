@@ -14,7 +14,7 @@ class MessageController(private val aiManager: AIManager) {
         @RequestParam("name") name: String = "",
         @RequestParam("text") text: String = "",
         @RequestParam("sessionId") sessionId: Long? = null
-    ): String {
+    ): Any {
         if (name.isEmpty() || name.isBlank()) {
             return "`name` was not set"
         }

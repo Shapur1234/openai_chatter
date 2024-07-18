@@ -21,9 +21,9 @@ class AIManager(private val chatDatabase: ChatDatabase) {
         .maxTokens(maxTokens)
         .build();
 
-    fun getResponse(query: Query): String {
+    fun getResponse(query: Query): List<String> {
         if (query.sessionId == null) {
-            return model.generate(initialMessage(query))
+            return listOf(model.generate(initialMessage(query)))
         } else {
             val (memory, newHistory) = chatDatabase.getChatHistory(query.sessionId)
             if (newHistory) {
@@ -39,8 +39,8 @@ class AIManager(private val chatDatabase: ChatDatabase) {
         }
     }
 
-    fun (ChatMemory).conversationLog(): String =
-        messages().joinToString(transform = { message ->
+    fun (ChatMemory).conversationLog(): List<String> =
+        messages().map { message ->
             "${
                 when (message.type()) {
                     ChatMessageType.AI -> "AI"
@@ -50,7 +50,7 @@ class AIManager(private val chatDatabase: ChatDatabase) {
                     null -> "NULL_MESSAGE_TYPE"
                 }
             }: ${message.text()}"
-        }, separator = "\n")
+        }
 
 
     fun initialMessage(query: Query): String = "Greet the user ${query.name} and answer their query: \"${query.text}\""
