@@ -2,6 +2,7 @@ package ai.promethist.openaichatter
 
 import ai.promethist.openaichatter.model.Query
 import ai.promethist.openaichatter.service.ChatDatabase
+
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -10,7 +11,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.HttpStatus
 import java.net.URI
-
 
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,

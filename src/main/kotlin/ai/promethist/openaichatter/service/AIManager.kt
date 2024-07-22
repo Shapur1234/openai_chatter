@@ -1,8 +1,8 @@
 package ai.promethist.openaichatter.service
 
 import ai.promethist.openaichatter.model.Query
-import dev.langchain4j.data.message.ChatMessageType
 
+import dev.langchain4j.data.message.ChatMessageType
 import org.springframework.stereotype.Service
 import dev.langchain4j.model.chat.ChatLanguageModel
 import dev.langchain4j.model.openai.OpenAiChatModel

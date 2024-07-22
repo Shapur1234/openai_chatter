@@ -20,6 +20,6 @@ class ChatDatabase {
         }
     }
 
-    fun blankChatMemory(sessionId: Long): ChatMemory =
+    private fun blankChatMemory(sessionId: Long): ChatMemory =
         MessageWindowChatMemory.builder().id(sessionId).maxMessages(maxStoredMessages).build()
 }
