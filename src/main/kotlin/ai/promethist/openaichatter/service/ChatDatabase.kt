@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class ChatDatabase {
-    val maxStoredMessages: Int = 10
+    final val maxStoredMessages: Int = 10
 
     private val database: MutableMap<Long, ChatMemory> = mutableMapOf()
 

@@ -12,7 +12,7 @@ import dev.langchain4j.memory.ChatMemory
 
 @Service
 class AIManager(private val chatDatabase: ChatDatabase) {
-    val maxTokens: Int = 50
+    final val maxTokens: Int = 50
 
     private val apiKey = (System.getenv("OPENAI_API_KEY") ?: "demo")
     private val model: ChatLanguageModel = OpenAiChatModel.builder()
